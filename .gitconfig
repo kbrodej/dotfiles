@@ -1,0 +1,28 @@
+[core]
+	editor = vim
+	excludesFile = /Users/klemenbrodej/.gitignore
+[alias]
+	propen = "!f() { git push -u origin $(git branch --show-current); }; f"
+[color]
+	ui = true
+[color "diff-highlight"]
+	oldNormal = red bold
+	oldHighlight = red bold 52
+	newNormal = green bold
+	newHighlight = green bold 22
+[color "diff"]
+	meta = blue
+	frag = magenta bold
+	func = 146 bold
+	commit = blue bold
+	old = red bold
+	new = green bold
+	whitespace = red reverse
+[diff]
+	algorithm = histogram
+[commit]
+	gpgsign = true
+[gpg]
+	program = /usr/local/MacGPG2/bin/gpg
+[push]
+	autoSetupRemote = true
