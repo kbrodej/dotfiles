@@ -18,9 +18,8 @@ source $ZSH/oh-my-zsh.sh
 
 
 # Git
-
 alias g="git"
-alias gs="git s"
+alias gs="git status"
 alias nah="git reset --hard;git clean -df"
 alias co="git checkout"
 
