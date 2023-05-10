@@ -22,6 +22,8 @@ alias g="git"
 alias gs="git status"
 alias nah="git reset --hard;git clean -df"
 alias co="git checkout"
+alias gp="git push"
+alias gpf="git push --force-with-lease"
 
 
 # Docker
