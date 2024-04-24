@@ -5,7 +5,7 @@
 	autocrlf = input
 	editor = vim
 	pager = diff-so-fancy | less --tabs=4 -RFX --mouse
-	excludesfile = /home/klemen/.gitignore
+	excludesFile = /home/klemen/.gitignore_global
 [alias]
 	graph = log --oneline --graph --decorate
 	ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
