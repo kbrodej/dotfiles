@@ -1,0 +1,86 @@
+[global_config]
+  suppress_multiple_term_dialog = True
+[keybindings]
+  copy = <Primary>c
+  paste = <Primary>v
+[profiles]
+  [[default]]
+    cursor_color = "#aaaaaa"
+    scrollback_infinite = True
+    use_system_font = False
+  [[edp]]
+    cursor_color = "#aaaaaa"
+    exit_action = hold
+    use_system_font = False
+[layouts]
+  [[default]]
+    [[[child0]]]
+      type = Window
+      parent = ""
+      order = 0
+      position = 0:0
+      maximised = True
+      fullscreen = False
+      size = 1920, 971
+      title = klemen@pop-os:~
+      last_active_term = aff004d9-fb19-48f4-affe-bb222886e07a
+      last_active_window = True
+    [[[terminal1]]]
+      type = Terminal
+      parent = child0
+      order = 0
+      profile = default
+      uuid = aff004d9-fb19-48f4-affe-bb222886e07a
+  [[edp]]
+    [[[child0]]]
+      type = Window
+      parent = ""
+      order = 0
+      position = 0:32
+      maximised = True
+      fullscreen = False
+      size = 2560, 1321
+      title = klemen@pop-os:~
+      last_active_term = aff004d9-fb19-48f4-affe-bb222886e07a
+      last_active_window = True
+    [[[child1]]]
+      type = HPaned
+      parent = child0
+      order = 0
+      position = 1689
+      ratio = 0.60
+    [[[terminal2]]]
+      type = Terminal
+      parent = child1
+      order = 0
+      profile = edp
+      uuid = aff004d9-fb19-48f4-affe-bb222886e07a
+      command = if ! ddev desc | grep -c InDocker; then ddev start; else ddev desc; fi; exec zsh;
+      directory = /home/klemen/Dev/agiledrop/EDP
+      title = Main
+    [[[child3]]]
+      type = VPaned
+      parent = child1
+      order = 1
+      position = 658
+      ratio = 0.5
+    [[[terminal4]]]
+      type = Terminal
+      parent = child3
+      order = 0
+      profile = edp
+      uuid = 4cd68e20-ef85-41a3-aed9-e4a0ef5ea5c9
+      command = ""
+      directory = /home/klemen/Dev/agiledrop/EDP
+      title = Deu
+    [[[terminal5]]]
+      title = Dash
+      type = Terminal
+      parent = child3
+      order = 1
+      profile = edp
+      uuid = e472f626-dd15-4bb0-9cb5-f422c028f8d8
+      directory = /home/klemen/Dev/agiledrop/EDP
+      command = ""
+[plugins]
+
