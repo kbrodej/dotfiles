@@ -22,7 +22,7 @@ ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 #--------------------------------------------------------------------------
 
 # General
-
+alias sail='sh $([ -f sail ] && echo sail || echo vendor/bin/sail)'
 alias cls="clear"
 alias brave="flatpak run com.brave.Browser &"
 # Git
@@ -37,14 +37,15 @@ alias gpre="git diff --name-only -- ':*.php' ':*.module' | xargs ddev phpstan an
 alias d="docker"
 alias dc="docker compose"
 
-export EDP="$HOME/Dev/agiledrop/edp"
+export EDP="$HOME/Dev/agiledrop/EDP"
+export SINGLE="$HOME/Dev/agiledrop/edp-single"
 export RUST="$HOME/Dev/rust"
 export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
 export PATH=${PATH}:${JAVA_HOME}/bin
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
 source ~/.zsh_vars
 neofetch
 
+source /home/klemen/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
