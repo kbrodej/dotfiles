@@ -23,6 +23,10 @@
 [commit]
 	gpgsign = true
 [gpg]
-	program = /usr/local/MacGPG2/bin/gpg
+	pprogram = /opt/homebrew/bin/gpg
 [push]
 	autoSetupRemote = true
+[user]
+        signingkey = 98DFBF25
+        name = Klemen Brodej
+        email = klemen.brodej1@gmail.com
