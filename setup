@@ -3,3 +3,8 @@ stow . --adopt
 DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 cp $DOTFILES/.gitconfig $HOME/.gitconfig
+
+# Scripts
+mkdir -p $HOME/.local/bin
+
+ln -sf $DOTFILES/scripts/t $HOME/.local/bin/t
