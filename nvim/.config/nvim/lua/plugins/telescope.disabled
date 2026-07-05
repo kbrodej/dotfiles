@@ -3,13 +3,12 @@ return {
   dependencies = {
     "nvim-lua/plenary.nvim",
     "nvim-tree/nvim-web-devicons",
-    -- native fzf sorter (the "fzf" in her config; needs `make`)
     { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
     -- vim.ui.select handler (replaces fzf.register_ui_select())
     "nvim-telescope/telescope-ui-select.nvim",
   },
   keys = {
-    -- flat scheme matching hers
+    -- flat scheme matching 
     { "<leader>f", function() require("telescope.builtin").find_files() end, desc = "Find files" },
     { "<leader>F", function() require("telescope.builtin").find_files({ no_ignore = true, hidden = true, prompt_title = "All Files" }) end, desc = "Find all files" },
     { "<leader>b", function() require("telescope.builtin").buffers() end, desc = "Find buffers" },
@@ -30,7 +29,7 @@ return {
 
     telescope.setup({
       defaults = {
-        -- prompt at top, ascending (matches her sorting_strategy = 'ascending')
+        -- prompt at top, ascending (matches sorting_strategy = 'ascending')
         sorting_strategy = "ascending",
         layout_strategy = "vertical",
         layout_config = {
@@ -42,7 +41,7 @@ return {
           mirror = true,
           preview_height = 0.55,
         },
-        -- her path_display = { truncate = 1 }
+        -- path_display = { truncate = 1 }
         path_display = { truncate = 1 },
         -- inline-right info ~ Telescope's results-count via prompt prefix
         prompt_prefix = "❯ ",
@@ -51,12 +50,12 @@ return {
           i = {
             ["<C-d>"] = actions.preview_scrolling_down,
             ["<C-u>"] = actions.preview_scrolling_up,
-            -- her history cycling
+            -- history cycling
             ["<C-p>"] = actions.cycle_history_prev,
             ["<C-n>"] = actions.cycle_history_next,
-            -- esc closes (her <esc> = actions.close)
+            -- esc closes (<esc> = actions.close)
             ["<esc>"] = actions.close,
-            -- ctrl-q -> send to quickfix (her grep ctrl-q)
+            -- ctrl-q -> send to quickfix (grep ctrl-q)
             ["<C-q>"] = actions.send_to_qflist + actions.open_qflist,
           },
           n = {
@@ -68,7 +67,7 @@ return {
       pickers = {
         find_files = {
           prompt_title = "Files",
-          -- her fd_opts: hidden, follow, exclude .git
+          -- fd_opts: hidden, follow, exclude .git
           find_command = { "fd", "--color=never", "--type", "f", "--hidden", "--follow", "--exclude", ".git" },
         },
         live_grep = {
@@ -78,12 +77,12 @@ return {
         },
         buffers = {
           prompt_title = "Buffers",
-          previewer = false,  -- her buffers picker has previewer = false
+          previewer = false,  -- buffers picker has previewer = false
           -- nicer default: sort by recency, drop to insert
           sort_mru = true,
           ignore_current_buffer = true,
         },
-        -- lsp pickers with no preview for refs/defs (matches hers)
+        -- lsp pickers with no preview for refs/defs 
         lsp_references = { previewer = false },
         lsp_definitions = { previewer = false },
       },
