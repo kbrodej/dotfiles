@@ -32,10 +32,14 @@ stow -D tmux    # unlinks ~/.tmux.conf
 | `nvim`     | `~/.config/nvim`                 |
 | `wezterm`  | `~/.config/wezterm`             |
 | `scripts`  | `~/scripts` (+ `~/.local/bin/t`) |
+| `git`      | `~/.gitconfig`, `~/.gitmessage`  |
 
 ## Notes
 
-- `.gitconfig` is **not** managed here — it holds machine-specific user and
-  signing settings. Configure it manually per machine.
+- The tracked `.gitconfig` holds only shareable settings (aliases, colors,
+  diff, commit template, signing on by default). Machine-specific identity —
+  `[user]` name/email/signingkey and the `gpg.program` path — lives in
+  `~/.gitconfig.local`, which the tracked config `[include]`s and which is
+  **never committed**. `setup` seeds an empty one on first run.
 - Machine-local or secret shell config goes in `~/.zshrc.local`, which `.zshrc`
   sources if present and is never committed.

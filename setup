@@ -3,8 +3,22 @@ DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$DOTFILES"
 
 # Stow packages. Add/remove names here to control what gets installed.
-PACKAGES=(zsh tmux nvim wezterm scripts)
+PACKAGES=(zsh tmux nvim wezterm scripts git)
 stow -v "${PACKAGES[@]}"
+
+# git: identity/signing/gpg-path are machine-specific — seed a local override
+# file the tracked .gitconfig includes. Fill in your details after first run.
+if [ ! -f "$HOME/.gitconfig.local" ]; then
+	cat > "$HOME/.gitconfig.local" <<'EOF'
+[user]
+	name =
+	email =
+	signingkey =
+[gpg]
+	program =
+EOF
+	echo "Created ~/.gitconfig.local — fill in your user/signing details."
+fi
 
 # Scripts: expose `t` on PATH
 mkdir -p "$HOME/.local/bin"

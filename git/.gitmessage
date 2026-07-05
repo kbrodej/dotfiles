@@ -1,0 +1,30 @@
+# <type>(<scope>): [TICKET-ID] <description>
+
+
+# --- COMMIT END ---
+# Type can be:
+#    feat     (new feature)
+#    fix      (bug fix)
+#    refactor (refactoring code)
+#    style    (formatting, missing semi colons, etc; no code change)
+#    docs     (changes to documentation)
+#    test     (adding or refactoring tests; no production code change)
+#    chore    (updating build tasks, package manager configs, etc)
+#    perf     (performance improvements)
+#    ci       (CI/CD changes)
+#    build    (changes to build system or dependencies)
+# --------------------
+# Remember to:
+#    - Use imperative mood (e.g., "add" not "added")
+#    - Don't end the subject line with a period
+#    - Capitalize the description
+#    - Keep first line under 50 characters if possible
+# --------------------
+# Examples:
+#    feat(api): [STUDL-123] add user authentication endpoint
+#    fix(ui): [STUDL-456] resolve button alignment on mobile
+#    docs(readme): [STUDL-789] update installation instructions
+# --------------------
+# Alternative format:
+#    STUDL-123: add user authentication endpoint
+# --------------------

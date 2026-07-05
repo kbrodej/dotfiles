@@ -7,4 +7,5 @@
 .DS_Store
 *.local
 .zshrc.local
+.gitconfig.local
 .p10k.zsh
