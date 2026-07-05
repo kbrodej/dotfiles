@@ -1,10 +1,14 @@
 #!/bin/bash
-stow . --adopt
 DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$DOTFILES"
 
-cp $DOTFILES/.gitconfig $HOME/.gitconfig
+# Stow packages. Add/remove names here to control what gets installed.
+PACKAGES=(zsh tmux nvim wezterm scripts)
+stow -v "${PACKAGES[@]}"
 
-# Scripts
-mkdir -p $HOME/.local/bin
+# Scripts: expose `t` on PATH
+mkdir -p "$HOME/.local/bin"
+ln -sf "$DOTFILES/scripts/scripts/t" "$HOME/.local/bin/t"
 
-ln -sf $DOTFILES/scripts/t $HOME/.local/bin/t
+# Note: .gitconfig is intentionally NOT managed here — it holds machine-specific
+# user/signing settings. Manage it manually per machine.
