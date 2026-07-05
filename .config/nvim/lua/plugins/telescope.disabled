@@ -1,0 +1,107 @@
+return {
+  "nvim-telescope/telescope.nvim",
+  dependencies = {
+    "nvim-lua/plenary.nvim",
+    "nvim-tree/nvim-web-devicons",
+    -- native fzf sorter (the "fzf" in her config; needs `make`)
+    { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+    -- vim.ui.select handler (replaces fzf.register_ui_select())
+    "nvim-telescope/telescope-ui-select.nvim",
+  },
+  keys = {
+    -- flat scheme matching hers
+    { "<leader>f", function() require("telescope.builtin").find_files() end, desc = "Find files" },
+    { "<leader>F", function() require("telescope.builtin").find_files({ no_ignore = true, hidden = true, prompt_title = "All Files" }) end, desc = "Find all files" },
+    { "<leader>b", function() require("telescope.builtin").buffers() end, desc = "Find buffers" },
+    { "<leader>g", function() require("telescope.builtin").live_grep({ prompt_title = "Grep Project" }) end, desc = "Grep project" },
+    { "<leader>G", function() require("telescope.builtin").live_grep({ additional_args = { "--hidden", "--no-ignore" }, prompt_title = "Grep All" }) end, desc = "Grep all files" },
+    { "<leader>h", function() require("telescope.builtin").help_tags() end, desc = "Help tags" },
+    { "<leader>s", function() require("telescope.builtin").lsp_document_symbols() end, desc = "Document symbols" },
+    -- LSP nav
+    -- { "gd", function() require("telescope.builtin").lsp_definitions() end, desc = "Go to definition" },
+    -- { "gr", function() require("telescope.builtin").lsp_references() end, desc = "Go to references" },
+    { "<leader>ws", function() require("telescope.builtin").lsp_dynamic_workspace_symbols() end, desc = "Workspace symbols" },
+    -- resume last picker
+    { "<leader>r", function() require("telescope.builtin").resume() end, desc = "Resume last search" },
+  },
+  config = function()
+    local telescope = require("telescope")
+    local actions = require("telescope.actions")
+
+    telescope.setup({
+      defaults = {
+        -- prompt at top, ascending (matches her sorting_strategy = 'ascending')
+        sorting_strategy = "ascending",
+        layout_strategy = "vertical",
+        layout_config = {
+          height = 0.85,
+          width = 0.85,
+          prompt_position = "top",
+          -- preview down:55% equivalent (vertical layout = preview on top by
+          -- default, so mirror=true puts results on top, preview below)
+          mirror = true,
+          preview_height = 0.55,
+        },
+        -- her path_display = { truncate = 1 }
+        path_display = { truncate = 1 },
+        -- inline-right info ~ Telescope's results-count via prompt prefix
+        prompt_prefix = "❯ ",
+        selection_caret = "  ",
+        mappings = {
+          i = {
+            ["<C-d>"] = actions.preview_scrolling_down,
+            ["<C-u>"] = actions.preview_scrolling_up,
+            -- her history cycling
+            ["<C-p>"] = actions.cycle_history_prev,
+            ["<C-n>"] = actions.cycle_history_next,
+            -- esc closes (her <esc> = actions.close)
+            ["<esc>"] = actions.close,
+            -- ctrl-q -> send to quickfix (her grep ctrl-q)
+            ["<C-q>"] = actions.send_to_qflist + actions.open_qflist,
+          },
+          n = {
+            ["<C-d>"] = actions.preview_scrolling_down,
+            ["<C-u>"] = actions.preview_scrolling_up,
+          },
+        },
+      },
+      pickers = {
+        find_files = {
+          prompt_title = "Files",
+          -- her fd_opts: hidden, follow, exclude .git
+          find_command = { "fd", "--color=never", "--type", "f", "--hidden", "--follow", "--exclude", ".git" },
+        },
+        live_grep = {
+          prompt_title = "Grep",
+          -- smart-case + sort by path; ripgrep handles --hidden via additional_args above
+          additional_args = { "--smart-case" },
+        },
+        buffers = {
+          prompt_title = "Buffers",
+          previewer = false,  -- her buffers picker has previewer = false
+          -- nicer default: sort by recency, drop to insert
+          sort_mru = true,
+          ignore_current_buffer = true,
+        },
+        -- lsp pickers with no preview for refs/defs (matches hers)
+        lsp_references = { previewer = false },
+        lsp_definitions = { previewer = false },
+      },
+      extensions = {
+        fzf = {
+          fuzzy = true,
+          override_generic_sorter = true,
+          override_file_sorter = true,
+          case_mode = "smart_case",
+        },
+        ["ui-select"] = {
+          require("telescope.themes").get_dropdown({}),
+        },
+      },
+    })
+
+    -- load native fzf sorter + ui-select (order matters: after setup)
+    telescope.load_extension("fzf")
+    telescope.load_extension("ui-select")
+  end,
+}
