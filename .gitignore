@@ -5,3 +5,6 @@
 .junie
 *.sql.gz
 .DS_Store
+*.local
+.zshrc.local
+.p10k.zsh

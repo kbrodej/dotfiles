@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
@@ -7,7 +14,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # load a random theme each time Oh My Zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="agnoster"
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
 plugins=(
 	git
@@ -114,6 +121,7 @@ alias nah="git reset --hard;git clean -df"
 alias co="git checkout"
 alias gp="git push"
 alias gpf="git push --force-with-lease"
+alias po='project-open'
 export EDP="$HOME/Documents/projects/EDP"
 export PATH="/opt/homebrew/bin:$PATH"
 gde() {
@@ -128,5 +136,23 @@ source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 prompt_context(){}
 export AGNOSTER_GIT_CLEAN_BG="green"        # Change from green
 export AGNOSTER_GIT_DIRTY_FG="black"       # Change from black  
-export AGNOSTER_GIT_DIRTY_BG="091"  
+export AGNOSTER_GIT_DIRTY_BG="yellow"  
 export PATH="/Users/klemenbrodej/.config/git-fuzzy/bin:$PATH"
+export PATH="$PATH:/Users/klemenbrodej/.composer/vendor/bin"
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="/Applications/PhpStorm.app/Contents/MacOS:$PATH"
+
+# pnpm
+export PNPM_HOME="/Users/klemenbrodej/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+[ -f ~/.zshrc.local ] && source ~/.zshrc.local
+# pnpm end
