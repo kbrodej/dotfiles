@@ -137,8 +137,8 @@ prompt_context(){}
 export AGNOSTER_GIT_CLEAN_BG="green"        # Change from green
 export AGNOSTER_GIT_DIRTY_FG="black"       # Change from black  
 export AGNOSTER_GIT_DIRTY_BG="yellow"  
-export PATH="/Users/klemenbrodej/.config/git-fuzzy/bin:$PATH"
-export PATH="$PATH:/Users/klemenbrodej/.composer/vendor/bin"
+export PATH="$HOME/.config/git-fuzzy/bin:$PATH"
+export PATH="$PATH:$HOME/.composer/vendor/bin"
   export NVM_DIR="$HOME/.nvm"
   [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
   [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
@@ -149,7 +149,7 @@ export PATH="$HOME/.local/bin:$PATH"
 export PATH="/Applications/PhpStorm.app/Contents/MacOS:$PATH"
 
 # pnpm
-export PNPM_HOME="/Users/klemenbrodej/Library/pnpm"
+export PNPM_HOME="$HOME/Library/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
