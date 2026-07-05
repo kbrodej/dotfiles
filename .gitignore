@@ -1,1 +1,7 @@
 .idea/
+.claude/*
+!.claude/agents
+!.claude/skills
+.junie
+*.sql.gz
+.DS_Store
