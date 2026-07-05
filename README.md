@@ -31,6 +31,7 @@ stow -D tmux    # unlinks ~/.tmux.conf
 | `tmux`     | `~/.tmux.conf`                   |
 | `nvim`     | `~/.config/nvim`                 |
 | `wezterm`  | `~/.config/wezterm`             |
+| `ghostty`  | `~/.config/ghostty`             |
 | `scripts`  | `~/scripts` (+ `~/.local/bin/t`) |
 | `git`      | `~/.gitconfig`, `~/.gitmessage`  |
 

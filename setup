@@ -3,7 +3,7 @@ DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$DOTFILES"
 
 # Stow packages. Add/remove names here to control what gets installed.
-PACKAGES=(zsh tmux nvim wezterm scripts git)
+PACKAGES=(zsh tmux nvim wezterm ghostty scripts git)
 stow -v "${PACKAGES[@]}"
 
 # git: identity/signing/gpg-path are machine-specific — seed a local override

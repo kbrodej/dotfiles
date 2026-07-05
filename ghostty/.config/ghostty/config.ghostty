@@ -1,0 +1,8 @@
+keybind = global:cmd+grave_accent=toggle_quick_terminal
+confirm-close-surface = false
+fullscreen = false
+maximize = true
+title = ""
+window-subtitle = false
+macos-titlebar-style = tabs 
+bell-features = no-system, no-title, no-audio
