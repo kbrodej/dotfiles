@@ -6,7 +6,7 @@ return {
     { "<Tab>", "<cmd>BufferLineCyclePrev<cr>", desc = "Prev buffer" },
     { "<S-Tab>", "<cmd>BufferLineCycleNext<cr>", desc = "Next buffer" },
     { "<leader>bp", "<cmd>BufferLineTogglePin<cr>", desc = "Pin buffer" },
-    { "<leader>bd", "<cmd>bdelete<cr>", desc = "Delete buffer" },
+    { "<leader>bd", function() Snacks.bufdelete() end, desc = "Delete buffer" },
     -- jump to buffer by position
     { "<leader>1", "<cmd>BufferLineGoToBuffer 1<cr>", desc = "Buffer 1" },
     { "<leader>2", "<cmd>BufferLineGoToBuffer 2<cr>", desc = "Buffer 2" },
@@ -17,6 +17,10 @@ return {
   opts = {
     options = {
       mode = "buffers",
+      -- close the buffer without touching the window layout (plain bdelete
+      -- can take the whole window/nvim down with it)
+      close_command = function(n) Snacks.bufdelete(n) end,
+      right_mouse_command = function(n) Snacks.bufdelete(n) end,
       diagnostics = "nvim_lsp",
       diagnostics_indicator = function(count, level)
         local icon = level:match("error") and " " or " "
