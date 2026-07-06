@@ -1,24 +1,108 @@
 #!/usr/bin/env bash
 
-# Credit to ThePrimeagen
+# Credit to ThePrimeagen for the original sessionizer.
+# Picks a project dir with fzf, then loads a tmuxp layout matched to the
+# project type. Layouts live in ~/.config/tmuxp (stowed from dotfiles/tmuxp).
+#
+# Usage: t [-r] [path]
+#   -r  rebuild: kill an existing session for the project and recreate it
+#       from the template
+
+projects_root="$HOME/Documents/projects"
+
+rebuild=0
+if [[ $1 == -r || $1 == --rebuild ]]; then
+    rebuild=1
+    shift
+fi
 
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
-    items=`find ~/Documents/projects -maxdepth 2 -mindepth 1 -type d`
-    items+=`echo -e "\n/tmp"`
-    selected=`echo "$items" | fzf`
+    # List candidate dirs, skipping dependency/hidden dirs (and the bruno
+    # collections folder) entirely, and not descending past a project root
+    # (a dir with .git or a project manifest) — subdirs of a project are
+    # never separate projects.
+    items=$(find "$projects_root" -maxdepth 3 -mindepth 1 -type d \
+        \( -name vendor -o -name node_modules -o -name '.*' \
+            -o -path "$projects_root/bruno" \) -prune -o \
+        -type d -exec sh -c 'test -e "$1/.git" -o -e "$1/composer.json" \
+            -o -e "$1/package.json" -o -e "$1/go.mod" \
+            -o -e "$1/Cargo.toml"' _ {} \; -prune -print \
+        -o -type d -print)
+    items+=$'\n/tmp'
+    selected=$(echo "$items" | fzf)
 fi
 
-if [[ $selected == '' ]]; then
-    exit
-fi
-
-dirname=`basename "$selected" | sed 's/\./_/g'`
-
-tmux switch-client -t ="$dirname"
-if [[ $? -eq 0 ]]; then
+if [[ -z $selected ]]; then
     exit 0
 fi
 
-tmux new-session -c "$selected" -d -s "$dirname" && tmux switch-client -t "$dirname" || tmux new -c "$selected" -A -s "$dirname"
+# Resolve to an absolute path so `t .` and relative paths name the session
+# after the real directory.
+selected=$(cd "$selected" 2>/dev/null && pwd)
+if [[ -z $selected ]]; then
+    echo "t: not a directory" >&2
+    exit 1
+fi
+
+session=$(basename "$selected" | sed 's/\./_/g')
+
+# Pick a tmuxp layout by project type. Laravel is checked first since it
+# also ships a package.json; go/rust before package.json so a stray one
+# (docs, tooling) doesn't turn them into fe.
+detect_layout() {
+    layout=default
+    if [[ -f $selected/artisan ]]; then
+        layout=laravel
+    elif [[ -f $selected/go.mod || -f $selected/Cargo.toml ]]; then
+        layout=default
+    elif [[ -f $selected/package.json ]]; then
+        layout=fe
+    fi
+}
+
+create() {
+    detect_layout
+    if command -v tmuxp >/dev/null 2>&1; then
+        TP_SESSION="$session" TP_DIR="$selected" tmuxp load -d "$layout" >/dev/null
+    else
+        tmux new-session -d -c "$selected" -s "$session"
+    fi
+}
+
+switch_to() {
+    if [[ -n $TMUX ]]; then
+        tmux switch-client -t "=$session"
+    else
+        tmux attach-session -t "=$session"
+    fi
+}
+
+current=""
+[[ -n $TMUX ]] && current=$(tmux display-message -p '#S')
+
+if tmux has-session -t "=$session" 2>/dev/null; then
+    if [[ $rebuild -eq 0 ]]; then
+        if [[ $current == "$session" ]]; then
+            tmux display-message "t: already in session $session (t -r rebuilds it)"
+        else
+            switch_to
+        fi
+        exit 0
+    fi
+    if [[ $current == "$session" ]]; then
+        # Rebuilding the session we are inside: killing it would kill this
+        # script too, so hand the job to the tmux server. The re-invocation
+        # of this script keeps session creation in one place.
+        client=$(tmux display-message -p '#{client_name}')
+        tmux run-shell -b "tmux kill-session -t '=$session'; \
+            '$0' '$selected' >/dev/null 2>&1; \
+            tmux switch-client -c '$client' -t '=$session' 2>/dev/null || true"
+        exit 0
+    fi
+    tmux kill-session -t "=$session"
+fi
+
+create
+switch_to

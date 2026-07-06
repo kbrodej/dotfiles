@@ -1,0 +1,19 @@
+# Default project layout (go, rust, anything else).
+# Loaded by `t` with TP_SESSION and TP_DIR set.
+session_name: ${TP_SESSION}
+start_directory: ${TP_DIR}
+windows:
+  - window_name: nvim
+    focus: true
+    panes:
+      - nvim
+  - window_name: claude
+    options:
+      automatic-rename: 'off'
+      allow-rename: 'off'
+      '@pinned': 'on'
+    panes:
+      - claude
+  - window_name: term
+    panes:
+      - blank

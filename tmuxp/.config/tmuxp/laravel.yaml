@@ -1,0 +1,42 @@
+# Laravel project layout (ddev + livewire/inertia).
+# Loaded by `t` with TP_SESSION and TP_DIR set.
+#
+# Pinned windows (&pinned anchor): fixed name + rename opts off so the
+# status line shows the window name instead of the running command (claude
+# reports its version number, idle ddev/node would show zsh).
+session_name: ${TP_SESSION}
+start_directory: ${TP_DIR}
+windows:
+  - window_name: nvim
+    focus: true
+    panes:
+      - nvim
+  - window_name: claude
+    options: &pinned
+      automatic-rename: 'off'
+      allow-rename: 'off'
+      '@pinned': 'on'
+    panes:
+      - claude
+  # Layout: ddev pane full-height on the left, two stacked panes right.
+  - window_name: ddev
+    layout: main-vertical
+    options:
+      <<: *pinned
+      main-pane-width: 50%
+    panes:
+      - shell_command:
+          - >-
+            ddev describe -j 2>/dev/null | grep -q '"status":"running"'
+            && echo 'ddev already running' || ddev start
+      - blank
+      - blank
+  - window_name: node
+    options: *pinned
+    panes:
+      - shell_command:
+          - cmd: npm run dev
+            enter: false
+  - window_name: term
+    panes:
+      - blank
