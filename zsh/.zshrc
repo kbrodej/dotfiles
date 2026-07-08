@@ -120,6 +120,7 @@ alias gp="git push"
 alias gpf="git push --force-with-lease"
 alias po='project-open'
 alias vim='nvim'
+alias v='nvim'
 export EDP="$HOME/Documents/projects/EDP"
 export PATH="/opt/homebrew/bin:$PATH"
 gde() {
